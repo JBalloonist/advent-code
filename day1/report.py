@@ -9,7 +9,7 @@ def find_twenty(numbers, sum_result=2020):
     for n, first in enumerate(numbers):
         for j, second in enumerate(numbers):
             for i, third in enumerate(numbers):
-                if n == j and j == i:
+                if n == j == i:
                     continue
                 total = first + second + third
                 if total == sum_result:
