@@ -40,21 +40,21 @@ def check_policy(policy_pw):
 def check_policy_pt2(policy_pw):
     """
     This checks if the password policy is being followed
-    >>> check_policy(['1-3', 'a', 'abcde'])
+    >>> check_policy_pt2(['1-3', 'a', 'abcde'])
     True
-    >>> check_policy(['1-3', 'b', 'cdefg'])
+    >>> check_policy_pt2(['1-3', 'b', 'cdefg'])
+    False
+    >>> check_policy_pt2(['2-9', 'c', 'ccccccccc'])
     False
     """
     policy = get_policy(policy_pw[0])
     value = policy_pw[1]
-    pw_count = dict(Counter(policy_pw[2]))
+    pos_count = [1 for n, i in enumerate(policy_pw[2], start=1) 
+                 if i == value and n in policy]
 
-    try:
-        if policy[0] <= pw_count[value] <= policy[1]:
-          return True
-        else:
-            return False
-    except:
+    if sum(pos_count) == 1:
+        return True
+    else:
         return False
 
 
@@ -62,8 +62,7 @@ def main():
     pol_pws = split_policy_and_passwords(open('pwds.txt', 'r'))
     total = []
     for i in pol_pws:
-        status = check_policy(i)
-        print(status)
+        status = check_policy_pt2(i)
         total.append(status)
     
     print(sum(total))
