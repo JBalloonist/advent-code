@@ -1,10 +1,10 @@
 
 def get_lines(file_input):
     """
-    docstring
+    Generator that returns the each line of a text file.
     """
-    for line_num, line in enumerate(file_input):
-        yield line_num, line
+    for line in open(file_input, 'r'):
+        yield line
 
 
 def get_location(line_input):
@@ -17,7 +17,7 @@ def get_location(line_input):
 # move right three spaces
 # down one line
 # right three spaces again
-def check_location(parameter_list):
+def track_location(line):
     """
     docstring
     """
@@ -25,11 +25,14 @@ def check_location(parameter_list):
 
 
 def main():
-    with open('test_data.txt') as target:
-        lines = get_lines(target.readlines())
-
-    print(next(get_location(next(lines)[1])))
+    lines = get_lines('test_data.txt')
+    # print(next(get_location(next(lines))))
+    for string in lines:
+        print(get_location(string))
+        
 
 
 if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
     main()
