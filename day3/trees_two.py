@@ -6,19 +6,21 @@ def main(lines):
     docstring
     """
     trees = []
-    line_start = 1
-    pos_start = 3
-    for l_num, line in enumerate(lines):
-        for pos_num, location in enumerate(line):
-            if pos_num == pos_start and l_num == line_start:
-                print(f'Line Number: {l_num}; Line: {line};\
-                Loc: {location}; Pos_num: {pos_start}')
-                trees.append(location)
-                line_start += 1
-                pos_start += 3
-            if (len(line) // 3) % 10 == 0:
-                pos_start = 3
+    x_pos = 0
+    for y_pos, line in enumerate(lines):
+        line = line.strip()
+        try:
+            location = line[x_pos]
+        except:
+            line *= y_pos
+            location = line[x_pos]
 
+        count = Counter(trees)['#']
+        
+        print(f'x_pos: {x_pos} y_pos: {y_pos} count: {count} ')
+        trees.append(location)
+        x_pos += 3
+    
     return Counter(trees)
 
 
