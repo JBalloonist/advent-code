@@ -1,22 +1,12 @@
 import argparse
+from typing import DefaultDict
 
 def get_data(file):
     """
     docstring
     """
     with open(file) as target:
-        return target.read()
-
-
-def parse_direction(dir):
-    """
-    >>> parse_direction('up')
-    '-'
-    >>> parse_direction('down')
-    '+'
-    """
-    dir_dict = {'forward': '+', 'down': '+', 'up': '-'}
-    return dir_dict[dir]
+        return target.readlines()
 
 
 def split_input(lines):
@@ -30,8 +20,15 @@ def split_input(lines):
 def get_totals(split_input):
     """
     docstring
-    """
-    pass
+    """    
+    all_dict = DefaultDict(list)
+    for k, v in split_input:
+        all_dict[k].append(int(v))
+    
+    return {k: sum(v) for k, v in all_dict.items()}
+
+def get_multiplier(totals):
+    return totals['forward'] * (totals['up'] - totals['down'])
 
 
 if __name__ == "__main__":
@@ -39,4 +36,6 @@ if __name__ == "__main__":
     parser.add_argument('-f', '--file')
     opts = parser.parse_args()
     data = get_data(opts.file)
-    get_totals()
+    input = split_input(data)
+    totals = get_totals(input)
+    print(get_multiplier(totals))
